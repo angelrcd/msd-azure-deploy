@@ -1,0 +1,27 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "frontend-name": {
+            "value": "msd-front"
+        },
+        "location": {
+            "value": "westeurope"
+        },
+        "frontend-sku": {
+            "value": "Standard"
+        },
+        "frontend-skucode": {
+            "value": "Standard"
+        },
+        "frontend-repositoryUrl": {
+            "value": "https://github.com/angelrcd/msd-front"
+        },
+        "branch": {
+            "value": "main"
+        },
+        "repositoryToken": {
+            "value": null
+        }
+    }
+}

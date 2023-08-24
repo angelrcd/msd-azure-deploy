@@ -1,0 +1,50 @@
+{
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "frontend-name": {
+            "type": "String"
+        },
+        "location": {
+            "type": "String"
+        },
+        "frontend-sku": {
+            "type": "String"
+        },
+        "frontend-skucode": {
+            "type": "String"
+        },
+        "frontend-repositoryUrl": {
+            "type": "String"
+        },
+        "branch": {
+            "type": "String"
+        },
+        "repositoryToken": {
+            "type": "SecureString"
+        }
+    },
+    "resources": [
+        {
+            "type": "Microsoft.Web/staticSites",
+            "apiVersion": "2021-01-01",
+            "name": "[parameters('frontend-name')]",
+            "location": "[parameters('location')]",
+            "sku": {
+                "Tier": "[parameters('frontend-sku')]",
+                "Name": "[parameters('frontend-skuCode')]"
+            },
+            "properties": {
+                "repositoryUrl": "[parameters('frontend-repositoryUrl')]",
+                "branch": "[parameters('branch')]",
+                "repositoryToken": "[parameters('repositoryToken')]",
+                "buildProperties": {
+                    "appLocation": "/",
+                    "apiLocation": "",
+                    "appArtifactLocation": "/dist"
+                },
+                "areStaticSitesDistributedBackendsEnabled": false
+            }
+        }
+    ]
+}
