@@ -46,5 +46,11 @@
                 "areStaticSitesDistributedBackendsEnabled": false
             }
         }
-    ]
+    ],
+    "outputs": {
+        "frontendUri": {
+        "type": "String",
+        "value": "[reference(resourceId('Microsoft.Web/staticSites', parameters('frontend-name'))).defaultHostname]"
+        }
+    }
 }
