@@ -22,6 +22,18 @@
         },
         "repositoryToken": {
             "value": null
+        },
+        "storageAccountName": {
+            "value": "msdstoragearc"
+        },
+        "storageAccountType": {
+            "value": "Standard_LRS"
+        },
+        "storageKind": {
+            "value": "StorageV2"
+        },
+        "storageMinimumTlsVersion": {
+            "value": "TLS1_2"
         }
     }
 }

@@ -22,6 +22,18 @@
         },
         "repositoryToken": {
             "type": "SecureString"
+        },
+        "storageAccountName": {
+            "type": "String"
+        },
+        "storageAccountType": {
+            "type": "String"
+        },
+        "storageKind": {
+            "type": "String"
+        },
+        "storageMinimumTlsVersion": {
+            "type": "String"
         }
     },
     "resources": [
@@ -45,12 +57,100 @@
                 },
                 "areStaticSitesDistributedBackendsEnabled": false
             }
+        },
+        {
+            "type": "Microsoft.Storage/storageAccounts",
+            "apiVersion": "2022-05-01",
+            "name": "[parameters('storageAccountName')]",
+            "location": "[parameters('location')]",
+            "sku": {
+                "name": "[parameters('storageAccountType')]"
+            },
+            "kind": "[parameters('storageKind')]",
+            "properties": {
+                "minimumTlsVersion": "[parameters('storageMinimumTlsVersion')]",
+                "supportsHttpsTrafficOnly": true,
+                "allowBlobPublicAccess": true,
+                "allowSharedKeyAccess": true,
+                "defaultToOAuthAuthentication": false,
+                "accessTier": "Hot",
+                "publicNetworkAccess": "Enabled",
+                "allowCrossTenantReplication": true,
+                "networkAcls": {
+                    "bypass": "AzureServices",
+                    "defaultAction": "Allow",
+                    "ipRules": []
+                },
+                "dnsEndpointType": "Standard",
+                "encryption": {
+                    "keySource": "Microsoft.Storage",
+                    "services": {
+                        "blob": {
+                            "enabled": true
+                        },
+                        "file": {
+                            "enabled": true
+                        },
+                        "table": {
+                            "enabled": true
+                        },
+                        "queue": {
+                            "enabled": true
+                        }
+                    },
+                    "requireInfrastructureEncryption": false
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Storage/storageAccounts/blobServices",
+            "apiVersion": "2022-05-01",
+            "name": "[concat(parameters('storageAccountName'), '/default')]",
+            "dependsOn": [
+                "[concat('Microsoft.Storage/storageAccounts/', parameters('storageAccountName'))]"
+            ],
+            "properties": {
+                "restorePolicy": {
+                    "enabled": false
+                },
+                "deleteRetentionPolicy": {
+                    "enabled": true,
+                    "days": 7
+                },
+                "containerDeleteRetentionPolicy": {
+                    "enabled": true,
+                    "days": 7
+                },
+                "changeFeed": {
+                    "enabled": false
+                },
+                "isVersioningEnabled": false
+            }
+        },
+        {
+            "type": "Microsoft.Storage/storageAccounts/fileservices",
+            "apiVersion": "2022-05-01",
+            "name": "[concat(parameters('storageAccountName'), '/default')]",
+            "dependsOn": [
+                "[concat('Microsoft.Storage/storageAccounts/', parameters('storageAccountName'))]",
+                "[concat(concat('Microsoft.Storage/storageAccounts/', parameters('storageAccountName')), '/blobServices/default')]"
+            ],
+            "properties": {
+                "shareDeleteRetentionPolicy": {
+                    "enabled": true,
+                    "days": 7
+                }
+            }
         }
     ],
     "outputs": {
         "frontendUri": {
-        "type": "String",
-        "value": "[reference(resourceId('Microsoft.Web/staticSites', parameters('frontend-name'))).defaultHostname]"
+            "type": "String",
+            "value": "[reference(resourceId('Microsoft.Web/staticSites', parameters('frontend-name'))).defaultHostname]"
+        },
+        "storageAccountKey": {
+            "type": "String",
+            "value": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName')), providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]).keys[0].value]"
         }
     }
 }

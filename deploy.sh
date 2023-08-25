@@ -16,4 +16,9 @@ az deployment group create \
 DEPLOYMENT_OUTPUT=$(az deployment group show -g mysweetdreamsrg -n devenvironment --query 'properties.outputs')
 
 # Separate many output values in separate variables
-FRONTEND_URI=$(echo "$DEPLOYMENT_OUTPUT" | jq -r '.frontendUri' | jq -r '.value')
+FRONTEND_URI=$(echo "$DEPLOYMENT_OUTPUT" | jq -r '.frontendUri.value')
+STORAGE_ACCOUNT_KEY=$(echo "$DEPLOYMENT_OUTPUT" | jq -r '.storageAccountKey.value')
+
+# Create container in storage account and upload default user profile pic
+az storage container create --name user-pfp --account-name $STORAGE_ACCOUNT_NAME --public-access blob
+az storage blob upload --account-name $STORAGE_ACCOUNT_NAME --container-name user-pfp --file default.png
