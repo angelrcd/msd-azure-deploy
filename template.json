@@ -8,6 +8,9 @@
         "location": {
             "type": "String"
         },
+        "locationName": {
+            "type": "String"
+        },
         "frontend-sku": {
             "type": "String"
         },
@@ -33,6 +36,12 @@
             "type": "String"
         },
         "storageMinimumTlsVersion": {
+            "type": "String"
+        },
+        "dbName": {
+            "type": "String"
+        },
+        "defaultDbExperience": {
             "type": "String"
         }
     },
@@ -139,6 +148,56 @@
                 "shareDeleteRetentionPolicy": {
                     "enabled": true,
                     "days": 7
+                }
+            }
+        },
+        {
+            "type": "Microsoft.DocumentDb/databaseAccounts",
+            "apiVersion": "2023-03-15-preview",
+            "name": "[parameters('dbName')]",
+            "location": "[parameters('location')]",
+            "tags": {
+                "defaultExperience": "[parameters('defaultDbExperience')]",
+                "hidden-cosmos-mmspecial": ""
+            },
+            "kind": "MongoDB",
+            "properties": {
+                "databaseAccountOfferType": "Standard",
+                "locations": [
+                    {
+                        "id": "[concat(parameters('dbName'), '-', parameters('location'))]",
+                        "failoverPriority": 0,
+                        "locationName": "[parameters('locationName')]"
+                    }
+                ],
+                "backupPolicy": {
+                    "type": "Periodic",
+                    "periodicModeProperties": {
+                        "backupIntervalInMinutes": 240,
+                        "backupRetentionIntervalInHours": 8,
+                        "backupStorageRedundancy": "Geo"
+                    }
+                },
+                "isVirtualNetworkFilterEnabled": false,
+                "virtualNetworkRules": [],
+                "ipRules": [],
+                "dependsOn": [],
+                "minimalTlsVersion": "Tls12",
+                "enableMultipleWriteLocations": false,
+                "capabilities": [
+                    {
+                        "name": "EnableMongo"
+                    },
+                    {
+                        "name": "DisableRateLimitingResponses"
+                    }
+                ],
+                "apiProperties": {
+                    "serverVersion": "4.2"
+                },
+                "enableFreeTier": true,
+                "capacity": {
+                    "totalThroughputLimit": 1000
                 }
             }
         }
