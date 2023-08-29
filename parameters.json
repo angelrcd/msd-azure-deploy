@@ -43,6 +43,33 @@
         },
         "defaultDbExperience": {
             "value": "Azure Cosmos DB for MongoDB API"
+        },
+        "backend-name": {
+            "value": "msd-api-arc"
+        },
+        "backend-hostingPlanName": {
+            "value": "msd-api-plan"
+        },
+        "sku": {
+            "value": "Standard"
+        },
+        "skuCode": {
+            "value": "S1"
+        },
+        "linuxFxVersion": {
+            "value": "DOCKER|angelrcd/msd-backend:latest"
+        },
+        "dockerRegistryUrl": {
+            "value": "https://index.docker.io"
+        },
+        "dockerRegistryUsername": {
+            "value": ""
+        },
+        "dockerRegistryPassword": {
+            "value": null
+        },
+        "dockerRegistryStartupCommand": {
+            "value": ""
         }
     }
 }
