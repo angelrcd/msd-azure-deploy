@@ -3,8 +3,6 @@ This repository contains an **Azure Resource Manager (ARM) template** that defin
 It also contains a **bash script** to initiate the deployment and setup some necesary configuration.
 
 ## What is this
-![App logo](./readme-assets/logo.png)
-
 **MySweetDreams** is a platform that aims to help people take better care of their sleep hours, and thus improve their health and vitality.
 
 **MERN Stack** fullstack web application, **collaborative project** for a webdev formation.
