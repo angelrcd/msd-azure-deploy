@@ -2,6 +2,8 @@
 This repository contains an **Azure Resource Manager (ARM) template** that defines the infrastructure and resources necesary to deploy a full stack website.
 It also contains a **bash script** to initiate the deployment and setup some necesary configuration.
 
+Live: https://icy-meadow-0824c7f03.3.azurestaticapps.net/
+
 ## What is this
 **MySweetDreams** is a platform that aims to help people take better care of their sleep hours, and thus improve their health and vitality.
 
